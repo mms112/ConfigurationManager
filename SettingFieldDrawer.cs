@@ -592,7 +592,7 @@ namespace ConfigurationManager
             GUILayout.Label(label, GetLabelStyle(), GUILayout.ExpandWidth(false));
             int precision = _vectorDynamicPrecision.Value && integerValuesOnly ? 0 : Math.Abs(_vectorPrecision.Value);
             string value = GUILayout.TextField(setting.ToString("F" + precision, CultureInfo.InvariantCulture), GetTextStyle(setting, defaultValue), GUILayout.ExpandWidth(true)).Replace(',', '.');
-            if (precision == 0 && value.EndsWith('.'))
+            if (precision == 0 && value.EndsWith("."))
                 value = string.Concat(value, string.Empty.PadRight(Math.Abs(_vectorPrecision.Value - 1), '0'), 1);
 
             float.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out var x);

@@ -127,10 +127,10 @@ namespace ConfigurationManager
                 }
                 catch
                 {
-                    separatedString.AddRange(valueToSet.ToString().Split(separator));
+                    separatedString.AddRange(valueToSet.ToString().Split(separator.ToCharArray()));
                 }
             else
-                separatedString.AddRange(valueToSet.ToString().Split(separator));
+                separatedString.AddRange(valueToSet.ToString().Split(separator.ToCharArray()));
 
             separatedStringDefault.Clear();
             if (setting.DefaultValue != null)
@@ -141,10 +141,10 @@ namespace ConfigurationManager
                     }
                     catch
                     {
-                        separatedStringDefault.AddRange(setting.DefaultValue.ToString().Split(separator).Select(s => s.Trim()));
+                        separatedStringDefault.AddRange(setting.DefaultValue.ToString().Split(separator.ToCharArray()).Select(s => s.Trim()));
                     }
                 else
-                    separatedStringDefault.AddRange(setting.DefaultValue.ToString().Split(separator).Select(s => s.Trim()));
+                    separatedStringDefault.AddRange(setting.DefaultValue.ToString().Split(separator.ToCharArray()).Select(s => s.Trim()));
         }
 
         private void InitializeWindow()
@@ -370,7 +370,7 @@ namespace ConfigurationManager
 
             Type[] genericArgs = type.GetGenericArguments();
             string elements = string.Join(", ", genericArgs.Select(t => typeMappings.TryGetValue(t, out string name) ? name : t.Name));
-            return $"{typeMappings.GetValueOrDefault(type, type.Name)}<{elements}>";
+            return $"{typeMappings.GetValueOrDefaultPiktiv(type, type.Name)}<{elements}>";
         }
 
         private string GetValueRepresentation(object value, Type type)
