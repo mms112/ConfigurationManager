@@ -1,3 +1,14 @@
+# 1.1.24
+* Cached input-prevention state so closed Configuration Manager windows no longer recompute visibility and config state on every hot ZInput query
+* Preserved the post-close input guard while reducing normal gameplay checks to direct cached field reads
+
+# 1.1.23
+* KeyCode type included in Keybinds filtering toggle
+
+# 1.1.22
+* Added a Filtering option to show settings explicitly marked as unbrowsable by other mods
+* Added a Filtering option to show getter-only legacy/property settings while keeping them strictly read-only
+
 # 1.1.21
 * Fixed `KeyCode` dropdowns
 

@@ -791,13 +791,27 @@ namespace ConfigurationManager
             _filterRebuildPending = true;
         }
 
+        internal static bool PassesAuthorVisibilityFilters(SettingEntryBase setting)
+        {
+            if (setting == null)
+                return false;
+
+            if (_showUnbrowsable?.Value != true && (setting.Browsable == false || setting.PluginUnbrowsable))
+                return false;
+
+            if (_showGetterOnlySettings?.Value != true && setting.IsGetterOnly)
+                return false;
+
+            return true;
+        }
+
         private void RebuildFilteredSettingList()
         {
             _filterRebuildPending = false;
             if (_allSettings == null)
                 return;
 
-            IEnumerable<SettingEntryBase> results = _allSettings.Where(x => x.Browsable != false);
+            IEnumerable<SettingEntryBase> results = _allSettings.Where(PassesAuthorVisibilityFilters);
 
             if (_readOnlyStyle.Value == ReadOnlyStyle.Hidden)
                 results = results.Where(x => x.ReadOnly != true);
@@ -863,7 +877,7 @@ namespace ConfigurationManager
                 .ToList();
         }
 
-        private static bool IsKeyboardShortcut(SettingEntryBase x) => x.SettingType == typeof(KeyboardShortcut);
+        private static bool IsKeyboardShortcut(SettingEntryBase x) => x.SettingType == typeof(KeyboardShortcut) || x.SettingType == typeof(KeyCode);
 
         private static bool ContainsSearchString(SettingEntryBase setting, string[] searchStrings)
         {
